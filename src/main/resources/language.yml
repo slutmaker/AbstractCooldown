@@ -1,0 +1,7 @@
+prefix: '&6AbstractCooldown &f» '
+notEnoughPermission: '&cВы не можете использовать это!'
+reloaded: '&aконфигурация и сообщения успешно обновлены!'
+waitCooldown: '&cВы сможете использовать эту команду только через &a{time}'
+allCleaned: '&aВсе кулдауны успешно очищены!'
+playerNotOnline: '&cИгрок &e{0} &cне в сети!'
+playerCleaned: '&aУ игрока &e{0} &aуспешно очищены все кулдауны!'
