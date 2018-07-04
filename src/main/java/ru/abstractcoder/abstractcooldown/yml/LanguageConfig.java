@@ -3,12 +3,14 @@ package ru.abstractcoder.abstractcooldown.yml;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.abstractcoder.abstractcooldown.util.ColorUtils;
 
-import java.util.HashMap;
+import java.text.MessageFormat;
 import java.util.Map;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 public class LanguageConfig extends YmlConfig {
 
-    private final Map<String, String> messageMap = new HashMap<>();
+    private Map<String, String> messageMap;
 
     public LanguageConfig(JavaPlugin plugin) {
         super(plugin, "language", true);
@@ -22,15 +24,11 @@ public class LanguageConfig extends YmlConfig {
     }
 
     private void update() {
-        messageMap.clear();
-        yml.getKeys(false).stream().filter(yml::isString).forEach(key -> messageMap.put(key, ColorUtils.color(yml.getString(key))));
+        messageMap = yml.getKeys(false).stream().filter(yml::isString).collect(Collectors.toMap(Function.identity(), s -> ColorUtils.color(yml.getString(s))));
     }
 
     public String getMsg(String path, boolean needPrefix, String... replacements) {
-        String msg =  messageMap.get(path);
-        for (int i = 0; i < replacements.length; i++) {
-            msg = msg.replace("{" + i + "}", replacements[i]);
-        }
+        String msg = MessageFormat.format(messageMap.get(path), (Object[]) replacements);
         if (needPrefix) {
             msg = messageMap.get("prefix") + msg;
         }
