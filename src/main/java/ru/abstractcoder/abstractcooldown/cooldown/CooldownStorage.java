@@ -5,9 +5,9 @@ import com.google.common.collect.Table;
 
 import java.util.UUID;
 
-class CooldownStorage {
+public class CooldownStorage {
 
-    private Table<UUID, String, Cooldown> cooldownTable = HashBasedTable.create();
+    private final Table<UUID, String, Cooldown> cooldownTable = HashBasedTable.create();
 
     Table<UUID, String, Cooldown> getCooldownTable() {
         return cooldownTable;

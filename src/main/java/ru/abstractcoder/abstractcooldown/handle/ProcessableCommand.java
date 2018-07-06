@@ -15,6 +15,8 @@ public class ProcessableCommand {
 
     private String label;
     private boolean checkAliases;
+    private boolean saveOnStop;
+    private boolean notifyOnExpire;
     private List<String> similarCommands;
     private String permission;
     private int minArgsLength;
@@ -22,8 +24,10 @@ public class ProcessableCommand {
     private Duration defaultTime;
     private Map<String, Duration> groupsDuration;
 
-    ProcessableCommand(String label, boolean checkAliases, List<String> similarCommands, String permission, int minArgsLength, String customMessage,
-                       Duration defaultTime, Map<String, Duration> groupsDuration) {
+    ProcessableCommand(String label, boolean checkAliases, boolean saveOnStop, boolean notifyOnExpire, List<String> similarCommands, String permission, int minArgsLength,
+                       String customMessage, Duration defaultTime, Map<String, Duration> groupsDuration) {
+        this.saveOnStop = saveOnStop;
+        this.notifyOnExpire = notifyOnExpire;
         String[] split = label.split(" ");
         Command command = CommandUtils.getCommandByAlias(split[0]);
         if (command != null) {
@@ -70,6 +74,14 @@ public class ProcessableCommand {
 
     public String getLabel() {
         return label;
+    }
+
+    public boolean isSaveOnStop() {
+        return saveOnStop;
+    }
+
+    public boolean isNotifyOnExpire() {
+        return notifyOnExpire;
     }
 
     public boolean checkPermission(Player player) {

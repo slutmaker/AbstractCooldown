@@ -1,7 +1,5 @@
 package ru.abstractcoder.abstractcooldown.cooldown;
 
-import java.util.concurrent.TimeUnit;
-
 class CooldownImpl implements Cooldown {
 
     private long time;

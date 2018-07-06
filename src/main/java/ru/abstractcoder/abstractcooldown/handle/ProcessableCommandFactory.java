@@ -12,6 +12,8 @@ public class ProcessableCommandFactory {
 
     public ProcessableCommand createProcessableCommand(final String label, final ConfigurationSection section) {
         final boolean checkAliases = section.getBoolean("checkAliases", false);
+        final boolean notifyOnExpire = section.getBoolean("notifyOnExpire", false);
+        final boolean saveOnStop = section.getBoolean("saveOnStop", false);
         final List<String> similarCommands = section.isList("similarCommands") ? section.getStringList("similarCommands") : null;
         final String permission = section.getString("permission", null);
         final int minArgsLength = section.getInt("minArgsLength", 0);
@@ -22,7 +24,7 @@ public class ProcessableCommandFactory {
             final ConfigurationSection groupsTime = section.getConfigurationSection("groupsTime");
             groupsTime.getKeys(false).forEach(key -> groupsDuration.put(key.toLowerCase(), DurationUtils.parseDuration(groupsTime.getString(key))));
         }
-        return new ProcessableCommand(label, checkAliases, similarCommands, permission, minArgsLength, customMessage, defaultDuration, groupsDuration);
+        return new ProcessableCommand(label, checkAliases, saveOnStop, notifyOnExpire, similarCommands, permission, minArgsLength, customMessage, defaultDuration, groupsDuration);
     }
 
 }

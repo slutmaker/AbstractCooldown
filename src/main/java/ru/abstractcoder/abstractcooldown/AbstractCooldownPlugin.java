@@ -5,7 +5,6 @@ import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.abstractcoder.abstractcooldown.command.AbstractCooldownCommand;
-import ru.abstractcoder.abstractcooldown.cooldown.CooldownCleaner;
 import ru.abstractcoder.abstractcooldown.cooldown.CooldownManagementFacade;
 import ru.abstractcoder.abstractcooldown.handle.ProcessableCommandFactory;
 import ru.abstractcoder.abstractcooldown.listener.PlayerListener;
@@ -14,7 +13,7 @@ import ru.abstractcoder.abstractcooldown.yml.MainConfig;
 
 public class AbstractCooldownPlugin extends JavaPlugin {
 
-    private CooldownCleaner cooldownCleaner;
+    private CooldownManagementFacade cmf;
 
     @Override
     public void onEnable() {
@@ -22,8 +21,7 @@ public class AbstractCooldownPlugin extends JavaPlugin {
         ProcessableCommandFactory processableCommandFactory = new ProcessableCommandFactory();
         MainConfig mainConfig = new MainConfig(this, processableCommandFactory);
         LanguageConfig languageConfig = new LanguageConfig(this);
-        CooldownManagementFacade cmf = new CooldownManagementFacade();
-        cooldownCleaner = cmf.getCooldownCleaner();
+        cmf = new CooldownManagementFacade(this, mainConfig, languageConfig);
         Permission permission = null;
         if (mainConfig.isUsingVault() && pluginManager.isPluginEnabled("Vault")) {
             RegisteredServiceProvider<Permission> permissionProvider = getServer().getServicesManager().getRegistration(Permission.class);
@@ -37,7 +35,9 @@ public class AbstractCooldownPlugin extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        cooldownCleaner.clearAll();
+        cmf.getCooldownExpireNotifier().cancel();
+        cmf.getCooldownRepository().saveRequiredCooldowns();
+        cmf.getCooldownCleaner().clearAll();
     }
 
 }

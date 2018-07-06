@@ -28,7 +28,10 @@ public class LanguageConfig extends YmlConfig {
     }
 
     public String getMsg(String path, boolean needPrefix, String... replacements) {
-        String msg = MessageFormat.format(messageMap.get(path), (Object[]) replacements);
+        String msg = messageMap.get(path);
+        if (replacements.length > 0) {
+            msg = MessageFormat.format(msg, (Object[]) replacements);
+        }
         if (needPrefix) {
             msg = messageMap.get("prefix") + msg;
         }
