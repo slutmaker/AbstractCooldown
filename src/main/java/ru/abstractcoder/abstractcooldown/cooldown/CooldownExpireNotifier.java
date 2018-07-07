@@ -21,7 +21,7 @@ public class CooldownExpireNotifier extends BukkitRunnable {
         this.mainConfig = mainConfig;
         this.languageConfig = languageConfig;
         this.cooldownStorage = cooldownStorage;
-        runTaskTimerAsynchronously(plugin, 20L, 20L);
+        runTaskTimer(plugin, 20L, 20L);
     }
 
     @Override

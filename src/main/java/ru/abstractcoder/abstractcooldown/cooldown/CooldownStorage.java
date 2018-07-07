@@ -5,7 +5,7 @@ import com.google.common.collect.Table;
 
 import java.util.UUID;
 
-public class CooldownStorage {
+class CooldownStorage {
 
     private final Table<UUID, String, Cooldown> cooldownTable = HashBasedTable.create();
 
